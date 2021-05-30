@@ -448,14 +448,23 @@ def _convert_imgs_to_data_uris(src):
                             deletions.append(file_path)
                             uri = _data_uri_from_path(file_path)
                         if uri:
-                            temp.write(line.replace(full, uri).encode("ascii"))
+                            try:
+                                temp.write(line.replace(full, uri).encode("utf-8"))
+                            except:
+                                print path, line
                         else:
                             if not stripped.startswith("data:"):
                                 print "no data uri for path:", os.path.join(base, URI_to_os_path(stripped)) 
-                            temp.write(line.encode("ascii"))
+                            try:
+                                temp.write(line.encode("utf-8"))
+                            except:
+                                print path, line
                             dirty = True
                 else:
-                    temp.write(line.encode("ascii"))
+                    try:
+                        temp.write(line.encode("utf-8"))
+                    except:
+                        print path, line
                     dirty = True
 
             if dirty:
